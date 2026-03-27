@@ -520,7 +520,10 @@ func (c *mockConn) Write(b []byte) (n int, err error) {
 	c.tokens <- token
 	return len(b), nil
 }
-func (c *mockConn) Close() error                       { return nil }
+func (c *mockConn) Close() error {
+	close(c.tokens)
+	return nil
+}
 func (c *mockConn) LocalAddr() net.Addr                { panic("not implemented") }
 func (c *mockConn) RemoteAddr() net.Addr               { panic("not implemented") }
 func (c *mockConn) SetDeadline(t time.Time) error      { panic("not implemented") }
